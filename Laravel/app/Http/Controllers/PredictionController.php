@@ -14,30 +14,50 @@ class PredictionController extends Controller
 
     public function predict(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string',
-        ]);
+        // $validated = $request->validate([
+        //     'titles' => 'required|string',
+        //     // 'titles' => 'required|array',
+        //     // 'titles.*' => 'required|string',
+        // ]);
 
-        $title = $validated['title'];
+        $titlesInput = $request->input('titles');
+        
+        // $titles = $validated['titles'];
+        // $titles = preg_split('/\r\n|\r|\n/', $validated['titles']);
+        $titles = preg_split('/\r\n|\r|\n/', $titlesInput[0]);
+        // dd($titles);
+        
+
+        $predictions = [];
+
 
         // Melakukan permintaan ke Flask API
-        $response = Http::post('http://localhost:5000/predictsdgs', [
-            'title' => $title,
+        foreach($titles as $title){
+            if(!empty($title)){
+                $response = Http::post('http://localhost:5000/predictsdgs', [
+                    'title' => $title,
+                ]);
+    
+                // Mengembalikan respons dari Flask API
+                if ($response->successful()) {
+                    $predicted_labels = $response->json()['predicted_labels'];
+                    $predictions[] = [
+                        'title' => $title,
+                        'predicted_labels' => $predicted_labels,
+                    ];
+                } else {
+                    $predictions[] = [
+                        'title' => $title,
+                        'error' => 'Prediction Failed',
+                        'predicted_labels' => [],
+                    ];
+                }
+            }
+        }
+
+        return view('result', [
+            'predictions' => $predictions,
         ]);
 
-        // Mengembalikan respons dari Flask API
-        if ($response->successful()) {
-            $predicted_labels = $response->json()['predicted_labels'];
-            return view('result', [
-                'title' => $title,
-                'predicted_labels' => $predicted_labels,
-            ]);
-        } else {
-            return view('result', [
-                'title' => $title,
-                'error' => 'Prediction failed',
-                'predicted_labels' => [],
-            ]);
-        }
     }
 }

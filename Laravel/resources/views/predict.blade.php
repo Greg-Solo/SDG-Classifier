@@ -360,7 +360,7 @@
                 </div>
                 <div class="col-lg-12">
                   <fieldset>
-                    <textarea name="title" id="title" placeholder="Your Title" required></textarea>
+                    <textarea name="titles[]" id="titles" rows="4" cols="50" placeholder="Enter titles, one per line." required></textarea>
                   </fieldset>
                 </div>
                 <div class="col-lg-12">

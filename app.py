@@ -6,10 +6,13 @@ import tensorflow as tf
 import re
 import string
 import nltk
+# from tensorflow import keras
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.preprocessing.text import Tokenizer # coba langsung panggil dibawah, pake 2.17
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+# from tensorflow.keras.layers import Embedding, Bidirectional, LSTM, BatchNormalization, Dropout, Dense
+# from tensorflow.keras.optimizers import Adam
 # from tensorflow.keras.layers import InputLayer
 from sklearn.preprocessing import MultiLabelBinarizer
 import os
@@ -23,6 +26,31 @@ app = Flask(__name__)
 model_file_path = 'model.h5'
 # custom_objects = {'Input Layer': InputLayer}
 model = tf.keras.models.load_model(model_file_path)
+
+### ===== Rebuild Model
+# # Recreate the model architecture
+# embedding_layer = tf.keras.layers.Embedding(input_dim=20000, output_dim=128, input_length=300)
+
+# model = tf.keras.Sequential([
+#     embedding_layer,
+#     Bidirectional(LSTM(512, return_sequences=True)),
+#     BatchNormalization(),
+#     Dropout(0.4),
+#     Bidirectional(LSTM(512)),
+#     BatchNormalization(),
+#     Dropout(0.4),
+#     Dense(512, activation='relu'),
+#     Dropout(0.4),
+#     Dense(num_classes, activation='sigmoid')  # Use the correct number of classes
+# ])
+
+# # Compile the model
+# optimizer = Adam(learning_rate=0.001)
+# model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
+
+# # Load the weights from the existing model file
+# model.load_weights('model.h5')
+### ===== Rebuild Model
 
 # Load the dataset (for label encoder fitting)
 file_path = 'tambahan06.csv'

@@ -83,19 +83,23 @@
                     <div class="owl-carousel owl-banner">
                         <div class="item item-1">
                             <div class="header-text">
-                                <h2>Hasil Prediksi judul {{ $title }}</h2>
-                                @if (isset($predicted_labels) && count($predicted_labels) > 0)
-                                    <p>Predicted Labels:</p>
-                                    <div class="label-list">
-                                        @foreach ($predicted_labels as $label)
-                                            <div class="label-container">
-                                                <li>{{ $label }}</li>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <p>{{ $error }}</p>
-                                @endif
+                                <h2>Hasil Prediksi judul</h2>
+                                
+                                @foreach ($predictions as $prediction)
+                                    <h3>Judul: {{ $prediction['title'] }}</h3> <!-- New line: Display each title -->
+                                    @if (isset($prediction['predicted_labels']) && count($prediction['predicted_labels']) > 0) <!-- New line: Check if labels exist -->
+                                        <p>Label SDG:</p>
+                                        <div class="label-list">
+                                            @foreach ($prediction['predicted_labels'] as $label) <!-- New line: Loop through labels -->
+                                                <div class="label-container">
+                                                    <li>{{ $label }}</li>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <p>{{ $prediction['error'] ?? 'Prediction failed' }}</p> <!-- New line: Display error if prediction failed -->
+                                    @endif
+                                @endforeach <!-- New line: End loop -->
                                 <a href="{{ url('/predict') }}" class="btn btn-primary">Predict Again</a>
                             </div>
                         </div>
