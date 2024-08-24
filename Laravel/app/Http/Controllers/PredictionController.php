@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\TitlesImport;
 
 class PredictionController extends Controller
 {
@@ -14,19 +16,48 @@ class PredictionController extends Controller
 
     public function predict(Request $request)
     {
+        
         // $validated = $request->validate([
-        //     'titles' => 'required|string',
-        //     // 'titles' => 'required|array',
-        //     // 'titles.*' => 'required|string',
+            //     'titles' => 'required|string',
+            //     // 'titles' => 'required|array',
+            //     // 'titles.*' => 'required|string',
+            // ]);
+            
+        // $validated = $request->validate([
+        //     'titles' => 'nullable|string',
+        //     'file' => 'nullable|file|mimes:xlsx,csv',
         // ]);
-
+        
         $titlesInput = $request->input('titles');
+        // $titlesInput = $validated['titles'];
+        $titles =[];
+
+        // dd($request);
+        // dd($titlesInput);
+
+        // if($request->has('titles') && !empty($titles)){
+        if($titlesInput){
+            // $titlesInput = $request->input('titles');
+            
+            // dd($request);
+
+            $titles = preg_split('/\r\n|\r|\n/', $titlesInput[0]);
+            // dd($titles);
+        }
         
-        // $titles = $validated['titles'];
-        // $titles = preg_split('/\r\n|\r|\n/', $validated['titles']);
-        $titles = preg_split('/\r\n|\r|\n/', $titlesInput[0]);
+        if($request->hasFile('file')){
+            // dd($request);
+            $file = $request->file('file');
+            // dd($file);
+            // $import = new TitlesImport;
+            // Excel::import($import, $file);
+            // $titles = array_merge($titles, $import->getTitles());
+
+            $titlesFromFile = Excel::toCollection(new TitlesImport, $file);
+            $titles = array_merge($titles, $titlesFromFile->flatten()->toArray());
+        }
+        
         // dd($titles);
-        
 
         $predictions = [];
 
@@ -58,6 +89,5 @@ class PredictionController extends Controller
         return view('result', [
             'predictions' => $predictions,
         ]);
-
     }
 }
