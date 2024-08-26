@@ -1,10 +1,112 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SDG Classifier for Journals
+This is the source code for a website that hosts an SDG Classifier Model. This project was build using [Laravel](#about-laravel).
+
+**Input**:
+- Journal title(s)
+- Excel or csv file containing journal titles
+
+**Output**:
+- One or more SDGs related to each titles.
+
+<br/>
+
+## Requirements
+Below are the requirements to run this project locally.
+
+**PHP**
+- PHP (8.2.22)
+- Composer (2.7.8)
+- Laravel Framework (11.21.0)
+
+**PHP Packages**
+- maatwebsite/excel (^3.1)
+
+**Python**
+- Python (3.10)
+- Tensorflow (2.17)
+- NLTK (3.9.1)
+
+> **_<font style="color: red;">WARNING</font>_**  
+> **Avoid using Anaconda** in setting up the environment and installing packages. To avoid problems, **install packages using pip**, and use python's `venv` (optional).
+
+> **_<font style="color: blue;">NOTE</font>_**  
+> All of the required packages are already listed in `composer.lock`. Versions of packages unspecified here should automatically adjust during installation.
+
+<br/>
+
+## SETUP
+Here are the steps to run the project locally.
+
+### 1. Clone The Repo
+Clone the entire repository. Make sure all the files are cloned successfully, including the model file (`model.h5`).
+
+### 2. Setup PHP Environment
+For more detailed instructions, especially to set up the Laravel environment, see [this Laravel documentation](https://laravel.com/docs/11.x#creating-a-laravel-project).
+
+> **_<font style="color: blue;">NOTE</font>_**  
+> It is recommended to install **Laravel installer** globally as mentioned in the documentation.
+
+1. **Install PHP**  
+   - [**Official** Installation & Configuration](https://www.php.net/manual/en/install.php)
+   - [Installing on Ubuntu](https://www.cherryservers.com/blog/how-to-install-php-ubuntu)
+
+2. **Install Composer**  
+   See [Composer documentation](https://getcomposer.org/doc/00-intro.md).
+
+3. **Install Laravel**  
+   See [Laravel documentation](https://laravel.com/docs/11.x/installation).
+
+4. **Set Up The PHP environment**  
+   `cd` to the `Laravel` directory and run `composer install` to install necessary PHP packages.
+
+
+### 3. **Set Up The Python Environment**
+   1. Create a virtual environment (optional)  
+      ```
+      python -m venv <env_name>
+      ```
+   2. Install neccesary python libraries (check `app.py` to see which libraries are required). Make sure that the correct version of packages listed [here](#requirements) are installed.
+      ```
+      pip install <package_name==0.0.0>
+      ```
+
+### 4. **Run the project**
+   1. `cd` to `Laravel` directory and run:
+      ```
+      php artisan serve
+      ```
+   2. In another terminal, stay on the root directory and run:
+      ```
+      python app.py
+      ```
+
+> **_<font style="color: blue;">NOTE</font>_**  
+> If you're using a virtual environment, make sure that it's active before running `app.py`
+
+<br/>
+
+## More Info
+This project was build using **Laravel**.
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <a href="https://laravel.com" target="_blank">
+        <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
+    </a>
+</p>
+
+<p align="center">
+    <a href="https://github.com/laravel/framework/actions">
+        <img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status">
+    </a>
+    <a href="https://packagist.org/packages/laravel/framework">
+        <img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads">
+    </a>
+    <a href="https://packagist.org/packages/laravel/framework">
+        <img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version">
+    </a>
+    <a href="https://packagist.org/packages/laravel/framework">
+        <img src="https://img.shields.io/packagist/l/laravel/framework" alt="License">
+    </a>
 </p>
 
 ## About Laravel
