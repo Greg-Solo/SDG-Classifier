@@ -13,6 +13,9 @@ This is the source code for a website that hosts an SDG Classifier Model. This p
 ## Requirements
 Below are the requirements to run this project locally.
 
+> **_<font style="color: blue;">NOTE</font>_**  
+> All Python packages can be installed using the `requirements.txt` file. More in [3. Setup Steps](#setup)
+
 **PHP**
 - PHP (8.2.22)
 - Composer (2.7.8)
@@ -22,15 +25,25 @@ Below are the requirements to run this project locally.
 - maatwebsite/excel (^3.1)
 
 **Python**
-- Python (3.10)
+<!-- - Python (3.10)
 - Tensorflow (2.17)
-- NLTK (3.9.1)
+- NLTK (3.9.1) -->
+
+- Flask (3.0.3)
+- joblib (1.4.2)
+- keras (3.5.0)
+- nltk (3.9.1)
+- numpy (1.26.4)
+- pandas (2.2.2)
+- regex (2024.7.24)
+- scikit-learn (1.5.1)
+- tensorflow (2.17.0)
 
 > **_<font style="color: red;">WARNING</font>_**  
 > **Avoid using Anaconda** in setting up the environment and installing packages. To avoid problems, **install packages using pip**, and use python's `venv` (optional).
 
 > **_<font style="color: blue;">NOTE</font>_**  
-> All of the required packages are already listed in `composer.lock`. Versions of packages unspecified here should automatically adjust during installation.
+> All of the required PHP packages are already listed in `composer.lock`. Versions of packages unspecified here should automatically be adjusted during installation.
 
 <br/>
 
@@ -61,14 +74,23 @@ For more detailed instructions, especially to set up the Laravel environment, se
 
 
 ### 3. **Set Up The Python Environment**
-   1. Create a virtual environment (optional)  
+   1. **Create a virtual environment (optional)**  
       ```
       python -m venv <env_name>
       ```
-   2. Install neccesary python libraries (check `app.py` to see which libraries are required). Make sure that the correct version of packages listed [here](#requirements) are installed.
+      The directory of the virtual environment is usually created in `~/.virtualenvs` or in the directory where you run the command.
+
+      To activate the virtual environment, run:
       ```
-      pip install <package_name==0.0.0>
+      source <venv_dir_name>/bin/activate
       ```
+
+   2. **Install neccesary python libraries**  
+      There should be a `requirements.txt` file in the root directory of the proc. Run this command from the root directory to install all python requirements.
+      ```
+      pip install -r ./requirements.txt
+      ```
+      Make sure that the correct version of packages listed in [2. Requirements](#requirements) are installed.
 
 ### 4. **Run the project**
    1. `cd` to `Laravel` directory and run:
