@@ -94,12 +94,40 @@ def predict():
         return jsonify({'error': 'No input text provided'}), 400
 
     input_text = input_data['title']
+
+    print('\n')
+    print(f'Predicting "{input_text}"')
+
     processed_text = preprocess_text(input_text)
     sequence = tokenizer.texts_to_sequences([processed_text])
     padded_sequence = pad_sequences(sequence, maxlen=300, padding='post', truncating='post')
+    
     prediction = model.predict(padded_sequence)
-    predicted_labels = mlb.inverse_transform(prediction > 0.05)
-    predicted_labels_list = [label for sublist in predicted_labels for label in sublist]  # Flatten the list
+    
+    print(f'Raw result:\n{prediction}')
+
+    sorted_labels = []
+    
+    # Take top 3 labels
+    for i, pred in enumerate(prediction):
+        # Sort prediction probabilities, get the indices of the top 3
+        # top_3_indices = np.argsort(pred)[-3:][::-1]
+        top_3_indices = [i for i in np.argsort(pred)[::-1] if pred[i] > 0.09][:3]
+        top_3_scores = pred[top_3_indices]
+
+        # Get the labels of the top 3 indices
+        top_3_labels = tuple([mlb.classes_[index] for index in top_3_indices])
+        sorted_labels.append(top_3_labels)
+
+        print(f'Inversed sorted result:\n{str(sorted_labels)}')
+        print(f'Scores: {top_3_scores}')
+    print('\n')
+    
+
+
+    # predicted_labels = mlb.inverse_transform(prediction > 0.05)
+    # predicted_labels_list = [label for sublist in predicted_labels for label in sublist]  # Flatten the list
+    predicted_labels_list = [label for sublist in sorted_labels for label in sublist] # try
     
     return jsonify({'predicted_labels': predicted_labels_list})
 
