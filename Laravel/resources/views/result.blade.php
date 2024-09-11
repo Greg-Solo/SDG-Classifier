@@ -20,10 +20,13 @@
     <link rel="stylesheet" href="../assets/css/animate.css">
     <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
     <style>
-      .header-text {
-          color: #090909; /* Ganti dengan warna yang Anda inginkan */
+      .header-text h1, h2, h3 {
+          color: white; /* Ganti dengan warna yang Anda inginkan */
           font-weight: bold; /* Menambahkan gaya huruf tebal */
       }
+      /* h2, h3 {
+        color: #090909;
+      } */
       .label-container {
           padding: 10px;
           background-color: #f9f9f9;
