@@ -90,14 +90,12 @@
                                 
                                 @foreach ($predictions as $prediction)
                                     <h3>Judul: {{ $prediction['title'] }}</h3> <!-- New line: Display each title -->
-                                    @if (isset($prediction['predicted_labels']) && count($prediction['predicted_labels']) > 0) <!-- New line: Check if labels exist -->
+                                    @if (isset($prediction['predicted_label']) && !empty($prediction['predicted_label'])) <!-- New line: Check if labels exist -->
                                         <p>Label SDG:</p>
                                         <div class="label-list">
-                                            @foreach ($prediction['predicted_labels'] as $label) <!-- New line: Loop through labels -->
-                                                <div class="label-container">
-                                                    <li>{{ $label }}</li>
-                                                </div>
-                                            @endforeach
+                                            <div class="label-container">
+                                                <li>{{ $prediction['predicted_label'] }}</li>
+                                            </div>
                                         </div>
                                     @else
                                         <p>{{ $prediction['error'] ?? 'Prediction failed' }}</p> <!-- New line: Display error if prediction failed -->

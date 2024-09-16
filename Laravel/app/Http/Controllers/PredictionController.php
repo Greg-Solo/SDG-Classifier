@@ -53,13 +53,18 @@ class PredictionController extends Controller
             // Excel::import($import, $file);
             // $titles = array_merge($titles, $import->getTitles());
 
-            $titlesFromFile = Excel::toCollection(new TitlesImport, $file);
-            $titles = array_merge($titles, $titlesFromFile->flatten()->toArray());
+            // $titlesFromFile = Excel::toCollection(new TitlesImport, $file);
+            $collection = Excel::toCollection(null, $file);
+            $titlesFromFile = $collection->first()->skip(1)->pluck(1)->toArray();
+
+            // $titles = array_merge($titles, $titlesFromFile->flatten()->toArray());
+            $titles = array_merge($titles, $titlesFromFile);
         }
         
         // dd($titles);
 
-        $predictions = [];
+        // $predictions = [];
+        $individualPredictions = [];
 
 
         // Melakukan permintaan ke Flask API
@@ -72,22 +77,35 @@ class PredictionController extends Controller
                 // Mengembalikan respons dari Flask API
                 if ($response->successful()) {
                     $predicted_labels = $response->json()['predicted_labels'];
-                    $predictions[] = [
-                        'title' => $title,
-                        'predicted_labels' => $predicted_labels,
-                    ];
+                    // $predictions[] = [
+                    //     'title' => $title,
+                    //     'predicted_labels' => $predicted_labels,
+                    // ];
+
+                    foreach($predicted_labels as $label){
+                        $individualPredictions[] = [
+                            'title' => $title,
+                            'predicted_label' => $label,
+                        ];
+                    }
                 } else {
-                    $predictions[] = [
+                    // $predictions[] = [
+                    //     'title' => $title,
+                    //     'error' => 'Prediction Failed',
+                    //     'predicted_labels' => [],
+                    // ];
+
+                    $individualPredictions[] = [
                         'title' => $title,
-                        'error' => 'Prediction Failed',
-                        'predicted_labels' => [],
+                        'predicted_label' => 'Prediction Failed',
                     ];
                 }
             }
         }
 
         return view('result', [
-            'predictions' => $predictions,
+            // 'predictions' => $predictions,
+            'predictions' => $individualPredictions,
         ]);
     }
 }

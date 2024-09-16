@@ -16,7 +16,7 @@ class TitlesImport implements ToCollection
         foreach ($rows as $row) 
         {
             // Assuming titles are in the first column
-            $this->titles[] = $row[0];
+            $this->titles[] = $row[1];
         }
     }
 
