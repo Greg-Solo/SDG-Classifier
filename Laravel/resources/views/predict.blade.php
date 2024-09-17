@@ -355,14 +355,14 @@
             <div class="contact-us-content">
               <form id="contact-form" action="{{ url('/predict') }}" method="post" enctype="multipart/form-data">
                 @csrf
-                <div class="col-lg-12">
+                <!-- <div class="col-lg-12">
                   <h4>Input Your Title Here !!</h4>
                 </div>
                 <div class="col-lg-12">
                   <fieldset>
                     <textarea name="titles[]" id="titles" rows="4" cols="50" placeholder="Enter titles, one per line."></textarea>
                   </fieldset>
-                </div>
+                </div> -->
                 <div class="col-lg-12">
                   <fieldset>
                     <label for="file">Or upload an Excel/CSV file:</label>

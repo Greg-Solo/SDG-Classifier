@@ -31,6 +31,7 @@ class PredictionController extends Controller
         $titlesInput = $request->input('titles');
         // $titlesInput = $validated['titles'];
         $titles =[];
+        $idntitles = [];
 
         // dd($request);
         // dd($titlesInput);
@@ -55,7 +56,14 @@ class PredictionController extends Controller
 
             // $titlesFromFile = Excel::toCollection(new TitlesImport, $file);
             $collection = Excel::toCollection(null, $file);
-            $titlesFromFile = $collection->first()->skip(1)->pluck(1)->toArray();
+            // $idFromFile = $collection->first()->skip(1)->pluck(0)->toArray();
+            // $titlesFromFile = $collection->first()->skip(1)->pluck(1)->toArray();
+            $titlesFromFile = $collection->first()->skip(1)->map(function ($row) {
+                return [
+                    'id' => $row[0], // id col
+                    'title' => $row[1], // judul col
+                ];
+            })->toArray();
 
             // $titles = array_merge($titles, $titlesFromFile->flatten()->toArray());
             $titles = array_merge($titles, $titlesFromFile);
@@ -68,7 +76,10 @@ class PredictionController extends Controller
 
 
         // Melakukan permintaan ke Flask API
-        foreach($titles as $title){
+        foreach($titles as $entry){ // $title == entry
+            $id = $entry['id'];
+            $title = $entry['title'];
+
             if(!empty($title)){
                 $response = Http::post('http://localhost:5000/predictsdgs', [
                     'title' => $title,
@@ -84,6 +95,7 @@ class PredictionController extends Controller
 
                     foreach($predicted_labels as $label){
                         $individualPredictions[] = [
+                            'id' => $id,
                             'title' => $title,
                             'predicted_label' => $label,
                         ];
@@ -96,8 +108,10 @@ class PredictionController extends Controller
                     // ];
 
                     $individualPredictions[] = [
+                        'id' => $id,
                         'title' => $title,
-                        'predicted_label' => 'Prediction Failed',
+                        'error' => 'Prediction Failed',
+                        'predicted_label' => null,
                     ];
                 }
             }

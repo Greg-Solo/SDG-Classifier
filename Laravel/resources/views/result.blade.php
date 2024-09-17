@@ -89,6 +89,7 @@
                                 <h2>Hasil Prediksi judul</h2>
                                 
                                 @foreach ($predictions as $prediction)
+                                    <h3>ID: {{ $prediction['id'] }}</h3>
                                     <h3>Judul: {{ $prediction['title'] }}</h3> <!-- New line: Display each title -->
                                     @if (isset($prediction['predicted_label']) && !empty($prediction['predicted_label'])) <!-- New line: Check if labels exist -->
                                         <p>Label SDG:</p>
